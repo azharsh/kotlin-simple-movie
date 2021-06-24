@@ -1,0 +1,2 @@
+rootProject.name = "SimpleMovie"
+include ':app'
