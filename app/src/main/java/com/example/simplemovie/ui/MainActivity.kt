@@ -45,8 +45,6 @@ class MainActivity : BaseActivity() {
 
     override fun attachView() {
 
-
-
     }
 
     override fun detachView() {

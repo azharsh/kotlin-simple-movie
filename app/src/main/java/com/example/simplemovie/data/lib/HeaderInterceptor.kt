@@ -1,7 +1,7 @@
 package com.example.simplemovie.data.lib
 
 
-import android.preference.PreferenceManager
+import com.example.simplemovie.utils.PrefManager
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -9,7 +9,7 @@ import java.io.IOException
 
 class HeaderInterceptor(
     private val headers: HashMap<String, String>,
-    private val preferenceManager: PreferenceManager
+    private val preferenceManager: PrefManager
 ) : Interceptor {
 
     @Throws(IOException::class)
@@ -32,13 +32,11 @@ class HeaderInterceptor(
 
         val host = original.url.host
 
-//        if (host.contains("zomato")) {
-//            headers["user-key"] = preferenceManager.getString(UserPreferenceKey.ACCESS_TOKEN, "")
-//        }
 
         for ((key, value) in headers) {
             requestBuilder.addHeader(key, value)
         }
+
         return requestBuilder.build()
     }
 }

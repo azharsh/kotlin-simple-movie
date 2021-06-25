@@ -2,6 +2,7 @@ package com.example.simplemovie.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.simplemovie.R
 import com.example.simplemovie.base.BaseFragment
@@ -9,17 +10,22 @@ import com.example.simplemovie.data.movie.model.MovieModel
 import com.example.simplemovie.databinding.FragmentListBinding
 import com.example.simplemovie.ui.MainActivity
 import com.example.simplemovie.ui.adapter.MovieAdapter
+import com.example.simplemovie.ui.viewmodel.MovieViewModel
+import com.example.simplemovie.utils.launch
+import org.koin.android.ext.android.inject
 
-class PopularFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.fragment_list) {
+
+class PopularFragment(private val mainActivity: MainActivity) : BaseFragment(R.layout.fragment_list) {
 
     companion object {
         fun newInstance(mainActivity: MainActivity) =
             PopularFragment(mainActivity)
     }
 
-    private var fragmentListBinding : FragmentListBinding? = null
+    private var fragmentListBinding: FragmentListBinding? = null
+    private val movieViewModel: MovieViewModel by inject()
 
-    val listData = mutableListOf<MovieModel>()
+
     private lateinit var movieAdapter: MovieAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,20 +34,39 @@ class PopularFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.fr
         val binding = FragmentListBinding.bind(view)
         fragmentListBinding = binding
 
-//        for (i in 1..8){
-//            listData.add(MovieModel())
-//        }
+        movieAdapter = MovieAdapter(arrayListOf(), mainActivity)
 
-        movieAdapter =  MovieAdapter(listData)
-
-        fragmentListBinding?.recMovie?.layoutManager =  GridLayoutManager(context, 2)
+        fragmentListBinding?.recMovie?.layoutManager = GridLayoutManager(context, 2)
         fragmentListBinding?.recMovie?.adapter = movieAdapter
 
+        getLocalData()
+       // getApiData()
+
     }
 
-    private fun getData(){
-
+    private fun getLocalData() {
+        launch {
+            movieViewModel.getPopularMovieLocal().observe(viewLifecycleOwner, Observer {
+                if (it.isEmpty()) {
+                    getApiData()
+                } else {
+                   movieAdapter.setData(it)
+                }
+            })
+        }
     }
+
+    private fun getApiData() {
+        launch {
+            movieViewModel.getPopularMovie().observe(viewLifecycleOwner, Observer {
+                movieAdapter.setData(it)
+                launch {
+                    movieViewModel.insertPopular(it)
+                }
+            })
+        }
+    }
+
 
     override fun onDestroyView() {
         fragmentListBinding = null

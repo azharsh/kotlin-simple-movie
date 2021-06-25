@@ -7,11 +7,12 @@ import com.example.simplemovie.data.movie.model.MovieResponse
 import com.example.simplemovie.data.movie.model.PopularEntity
 import com.example.simplemovie.data.movie.model.TopRatedEntity
 import com.example.simplemovie.data.movie.remote.MovieApi
+import com.example.simplemovie.data.movie.remote.MovieApiClient
 
 class MovieDataStore(
-    val movieApi: MovieApi,
-    val popularDao: PopularDao,
-    val topRatedDao: TopRatedDao
+    private val movieApi: MovieApiClient,
+    private val popularDao: PopularDao,
+    private val topRatedDao: TopRatedDao
 ) : MovieRepository {
 
     override suspend fun getPopularMovie(id: Int): MovieResponse {
@@ -29,19 +30,19 @@ class MovieDataStore(
         popularDao.getAll().forEach {
             listResponse.add(
                 MovieModel(
-                    it.movie.id,
-                    it.movie.adult,
-                    it.movie.backdropPath,
-                    it.movie.originalTitle,
-                    it.movie.overview,
-                    it.movie.popularity,
-                    it.movie.posterPath,
-                    it.movie.releaseDate,
-                    it.movie.title,
-                    it.movie.video,
-                    it.movie.voteAverage,
-                    it.movie.voteCount,
-                    it.movie.favorite
+                    it.id,
+                    it.adult ?: false,
+                    it.backdropPath.orEmpty(),
+                    it.originalTitle.orEmpty(),
+                    it.overview.orEmpty(),
+                    it.popularity ?: 0.0,
+                    it.posterPath.orEmpty(),
+                    it.releaseDate.orEmpty(),
+                    it.title.orEmpty(),
+                    it.video ?: false,
+                    it.voteAverage ?: 0.0,
+                    it.voteCount ?:0,
+                    it.favorite ?: false
                 )
             )
         }
@@ -56,19 +57,19 @@ class MovieDataStore(
         popularDao.getAll().forEach {
             listResponse.add(
                 MovieModel(
-                    it.movie.id,
-                    it.movie.adult,
-                    it.movie.backdropPath,
-                    it.movie.originalTitle,
-                    it.movie.overview,
-                    it.movie.popularity,
-                    it.movie.posterPath,
-                    it.movie.releaseDate,
-                    it.movie.title,
-                    it.movie.video,
-                    it.movie.voteAverage,
-                    it.movie.voteCount,
-                    it.movie.favorite
+                    it.id,
+                    it.adult ?: false,
+                    it.backdropPath.orEmpty(),
+                    it.originalTitle.orEmpty(),
+                    it.overview.orEmpty(),
+                    it.popularity ?: 0.0,
+                    it.posterPath.orEmpty(),
+                    it.releaseDate.orEmpty(),
+                    it.title.orEmpty(),
+                    it.video ?: false,
+                    it.voteAverage ?: 0.0,
+                    it.voteCount ?:0,
+                    it.favorite ?: false
                 )
             )
         }
@@ -79,7 +80,18 @@ class MovieDataStore(
     override suspend fun updatePopular(movieModel: MovieModel) {
         val popularEntity = PopularEntity(
             movieModel.id,
-            movieModel
+            movieModel.adult,
+            movieModel.backdropPath,
+            movieModel.originalTitle,
+            movieModel.overview,
+            movieModel.popularity,
+            movieModel.poster_path,
+            movieModel.releaseDate,
+            movieModel.title,
+            movieModel.video,
+            movieModel.voteAverage,
+            movieModel.voteCount,
+            movieModel.favorite
         )
         popularDao.update(popularEntity)
     }
@@ -87,7 +99,18 @@ class MovieDataStore(
     override suspend fun updateTopRated(movieModel: MovieModel) {
         val topRatedEntity = TopRatedEntity(
             movieModel.id,
-            movieModel
+            movieModel.adult,
+            movieModel.backdropPath,
+            movieModel.originalTitle,
+            movieModel.overview,
+            movieModel.popularity,
+            movieModel.poster_path,
+            movieModel.releaseDate,
+            movieModel.title,
+            movieModel.video,
+            movieModel.voteAverage,
+            movieModel.voteCount,
+            movieModel.favorite
         )
         topRatedDao.update(topRatedEntity)
     }
@@ -98,25 +121,23 @@ class MovieDataStore(
             listPopular.add(
                 PopularEntity(
                     it.id,
-                    MovieModel(
-                        it.id,
-                        it.adult,
-                        it.backdropPath,
-                        it.originalTitle,
-                        it.overview,
-                        it.popularity,
-                        it.posterPath,
-                        it.releaseDate,
-                        it.title,
-                        it.video,
-                        it.voteAverage,
-                        it.voteCount,
-                        it.favorite
-                    )
+                    it.adult,
+                    it.backdropPath,
+                    it.originalTitle,
+                    it.overview,
+                    it.popularity,
+                    it.poster_path,
+                    it.releaseDate,
+                    it.title,
+                    it.video,
+                    it.voteAverage,
+                    it.voteCount,
+                    it.favorite
+
                 )
             )
         }
-        popularDao.insert(listPopular)
+        popularDao.insertAll(listPopular)
     }
 
     override suspend fun insertTopRated(listMovie: List<MovieModel>) {
@@ -125,24 +146,21 @@ class MovieDataStore(
             listTopRated.add(
                 TopRatedEntity(
                     it.id,
-                    MovieModel(
-                        it.id,
-                        it.adult,
-                        it.backdropPath,
-                        it.originalTitle,
-                        it.overview,
-                        it.popularity,
-                        it.posterPath,
-                        it.releaseDate,
-                        it.title,
-                        it.video,
-                        it.voteAverage,
-                        it.voteCount,
-                        it.favorite
-                    )
+                    it.adult,
+                    it.backdropPath,
+                    it.originalTitle,
+                    it.overview,
+                    it.popularity,
+                    it.poster_path,
+                    it.releaseDate,
+                    it.title,
+                    it.video,
+                    it.voteAverage,
+                    it.voteCount,
+                    it.favorite
                 )
             )
         }
-        topRatedDao.insert(listTopRated)
+        topRatedDao.insertAll(listTopRated)
     }
 }

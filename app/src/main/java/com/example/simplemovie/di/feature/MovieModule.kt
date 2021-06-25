@@ -11,6 +11,6 @@ val  movieModule = module {
 
     single<MovieRepository> { MovieDataStore(get(), get(), get()) }
 
-    viewModel { MovieViewModel(get())}
+    viewModel { MovieViewModel(get()) }
 
 }

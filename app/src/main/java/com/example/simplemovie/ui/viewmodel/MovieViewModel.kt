@@ -7,7 +7,7 @@ import com.example.simplemovie.data.movie.MovieRepository
 import com.example.simplemovie.data.movie.model.MovieModel
 
 
-class MovieViewModel(val movieRepository: MovieRepository) : ViewModel() {
+class MovieViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
     suspend fun getPopularMovie(): MutableLiveData<List<MovieModel>> {
         val result = MutableLiveData<List<MovieModel>>()

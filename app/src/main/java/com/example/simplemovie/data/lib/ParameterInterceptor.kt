@@ -1,7 +1,8 @@
 package com.example.simplemovie.data.lib
 
-import android.preference.PreferenceManager
+
 import com.example.simplemovie.utils.Constant.API_KEY
+import com.example.simplemovie.utils.PrefManager
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -10,7 +11,7 @@ import java.util.*
 
 class ParameterInterceptor(
     private val params: HashMap<String, String>,
-    private val preferenceManager: PreferenceManager
+    private val preferenceManager: PrefManager
 ) : Interceptor {
 
     @Throws(IOException::class)
@@ -33,7 +34,7 @@ class ParameterInterceptor(
 
         val host = originalHttpUrl.host
 
-        params["user_key"] = API_KEY
+        params["api_key"] = API_KEY
 
         for ((key, value) in params) {
           builder.addQueryParameter(key, value)

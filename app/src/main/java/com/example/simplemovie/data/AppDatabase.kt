@@ -15,9 +15,14 @@ import com.example.simplemovie.data.movie.model.TopRatedEntity
     entities = [
      PopularEntity::class,
      TopRatedEntity::class
-    ], version = 1
+    ],
+    version = 1,
+    exportSchema = true
 )
-@TypeConverters(ListStringConverter::class)
+@TypeConverters(
+    ListStringConverter::class,
+    ListPopularStringConverter::class,
+    ListTopRatedStringConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
