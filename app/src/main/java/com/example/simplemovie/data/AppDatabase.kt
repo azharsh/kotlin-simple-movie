@@ -5,12 +5,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.simplemovie.data.movie.model.MovieEntity
+import com.example.simplemovie.data.movie.local.PopularDao
+import com.example.simplemovie.data.movie.local.TopRatedDao
+import com.example.simplemovie.data.movie.model.PopularEntity
+import com.example.simplemovie.data.movie.model.TopRatedEntity
 
 
 @Database(
     entities = [
-     MovieEntity::class
+     PopularEntity::class,
+     TopRatedEntity::class
     ], version = 1
 )
 @TypeConverters(ListStringConverter::class)
@@ -41,6 +45,7 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-//    abstract fun formDao(): FormDao
+   abstract fun popularDao(): PopularDao
+   abstract fun topRatedDao(): TopRatedDao
 
 }

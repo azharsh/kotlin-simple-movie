@@ -28,9 +28,9 @@ class PopularFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.fr
         val binding = FragmentListBinding.bind(view)
         fragmentListBinding = binding
 
-        for (i in 1..8){
-            listData.add(MovieModel(i))
-        }
+//        for (i in 1..8){
+//            listData.add(MovieModel())
+//        }
 
         movieAdapter =  MovieAdapter(listData)
 

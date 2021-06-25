@@ -1,6 +1,7 @@
 package com.example.simplemovie.data.lib
 
 import android.preference.PreferenceManager
+import com.example.simplemovie.utils.Constant.API_KEY
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -32,13 +33,11 @@ class ParameterInterceptor(
 
         val host = originalHttpUrl.host
 
-        //    if (host.contains("zomato")) {
-        //         params["user_key"] = preferenceManager.getString(UserPreferenceKey.ACCESS_TOKEN, "")
-        //     }
+        params["user_key"] = API_KEY
 
-        //for ((key, value) in params) {
-        //  builder.addQueryParameter(key, value)
-        //}
+        for ((key, value) in params) {
+          builder.addQueryParameter(key, value)
+        }
 
         return builder.build()
     }
