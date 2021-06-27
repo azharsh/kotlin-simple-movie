@@ -64,6 +64,11 @@ class TopRatedFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.f
         }
     }
 
+    override fun onResume() {
+        getLocalData()
+        super.onResume()
+    }
+
     override fun onDestroyView() {
         fragmentListBinding = null
         super.onDestroyView()

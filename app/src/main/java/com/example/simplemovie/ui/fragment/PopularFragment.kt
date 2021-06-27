@@ -66,6 +66,11 @@ class PopularFragment(private val mainActivity: MainActivity) : BaseFragment(R.l
         }
     }
 
+    override fun onResume() {
+        getLocalData()
+        super.onResume()
+    }
+
 
     override fun onDestroyView() {
         fragmentListBinding = null

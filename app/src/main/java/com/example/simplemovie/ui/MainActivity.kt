@@ -2,6 +2,8 @@ package com.example.simplemovie.ui
 
 
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.simplemovie.R
@@ -38,6 +40,8 @@ class MainActivity : BaseActivity() {
 
         adapter = ViewPagerAdapter(supportFragmentManager, fragmentList)
 
+        binding.tabLayout.getTabAt(2)?.setCustomView(R.layout.notification_badge)
+
         binding.viewPagerMovie.adapter = adapter
         binding.viewPagerMovie.addOnPageChangeListener(
             TabLayout.TabLayoutOnPageChangeListener(
@@ -49,6 +53,9 @@ class MainActivity : BaseActivity() {
     }
 
     fun updateMovie(movieModel: MovieModel) {
+
+        var countFav = 0
+
         launch {
             movieViewModel.getPopularMovieLocal().observe(this, Observer {
                 it.forEach { m ->
@@ -70,7 +77,33 @@ class MainActivity : BaseActivity() {
                 }
             })
         }
+
+        if (movieModel.favorite){
+            countFav += 1
+        }else{
+            if (countFav > 0) {
+                countFav -= 1
+            }
+        }
+
+        setBadge(countFav)
+
     }
+
+    fun setBadge(count : Int){
+
+        val textBadge = binding.tabLayout.getTabAt(2)?.customView?.findViewById<TextView>(R.id.text_notif)
+
+        if (count == 0){
+            textBadge?.visibility = View.GONE
+        }else{
+            textBadge?.visibility = View.VISIBLE
+        }
+
+        textBadge?.text = count.toString()
+
+    }
+
 
     override fun attachView() {
 

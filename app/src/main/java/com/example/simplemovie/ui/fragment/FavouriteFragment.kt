@@ -46,7 +46,8 @@ class FavouriteFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.
     private fun getPopuLarData() {
         launch {
             movieViewModel.getPopularMovieLocal().observe(viewLifecycleOwner, Observer {
-                movieAdapter.setData(it)
+                val filteredData =  it.filter { f -> f.favorite }
+                movieAdapter.setData(filteredData)
                 getTopRatedData()
             })
         }
@@ -55,9 +56,20 @@ class FavouriteFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.
     private fun getTopRatedData(){
         launch {
             movieViewModel.getTopRatedMovieLocal().observe(viewLifecycleOwner, Observer {
-                movieAdapter.addData(it)
+                val filteredData =  it.filter { f -> f.favorite }
+                movieAdapter.addData(filteredData)
+                genereteBadge()
             })
         }
+    }
+
+    private fun genereteBadge(){
+        mainActivity.setBadge(movieAdapter.itemCount)
+    }
+
+    override fun onResume() {
+        getPopuLarData()
+        super.onResume()
     }
 
     override fun onDestroyView() {
