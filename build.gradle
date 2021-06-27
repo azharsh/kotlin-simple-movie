@@ -19,7 +19,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven{ url "https://dl.bintray.com/ekito/koin" }
         maven { url "https://oss.jfrog.org/libs-snapshot" }
 
     }
