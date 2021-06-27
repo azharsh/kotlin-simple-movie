@@ -78,7 +78,7 @@ class MainActivity : BaseActivity() {
             })
         }
 
-        if (movieModel.favorite){
+        if (movieModel.favorite == true){
             countFav += 1
         }else{
             if (countFav > 0) {

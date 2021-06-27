@@ -57,7 +57,7 @@ class MovieAdapter(
             itemMovieBinding.titleMovie.text = itemData.title
             itemMovieBinding.genreMovie.text = itemData.release_date
 
-            if (itemData.favorite){
+            if (itemData.favorite == true){
                 itemMovieBinding.favBtn.setImageResource(R.drawable.ic_baseline_favorite_24_red)
             }
 
@@ -69,7 +69,7 @@ class MovieAdapter(
             }
 
             itemMovieBinding.favBtn.setOnClickListener {
-                itemData.favorite = !itemData.favorite
+                itemData.favorite = !itemData.favorite!!
                 mainActivity.updateMovie(itemData)
                 notifyItemChanged(position)
             }

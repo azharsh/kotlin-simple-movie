@@ -13,7 +13,7 @@ data class MovieModel(
     val video: Boolean,
     val voteAverage: Double,
     val voteCount: Int,
-    var favorite : Boolean
+    var favorite : Boolean? = false
 )
 
 

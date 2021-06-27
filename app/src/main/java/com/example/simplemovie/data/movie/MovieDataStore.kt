@@ -77,11 +77,11 @@ class MovieDataStore(
     }
 
     override suspend fun updatePopular(movieModel: MovieModel) {
-        popularDao.updatePopular(movieModel.favorite, movieModel.id)
+        popularDao.updatePopular(movieModel.favorite ?: false, movieModel.id)
     }
 
     override suspend fun updateTopRated(movieModel: MovieModel) {
-        topRatedDao.updateTopRated(movieModel.favorite, movieModel.id)
+        topRatedDao.updateTopRated(movieModel.favorite ?: false, movieModel.id)
     }
 
     override suspend fun insertPopular(listMovie: List<MovieModel>) {
