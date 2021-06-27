@@ -69,12 +69,12 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
 
     // Koin for Kotlin
-    implementation "org.koin:koin-core:2.2.1"
+    implementation "org.koin:koin-core:2.2.3"
 
     // Koin Extended & experimental features
-    implementation "org.koin:koin-core-ext:2.2.1"
+    implementation "org.koin:koin-core-ext:2.2.3"
 
-    def koin_version = "2.2.1"
+    def koin_version = "2.2.3"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
     implementation "org.koin:koin-android:$koin_version"
 
