@@ -3,11 +3,10 @@ package com.example.simplemovie.data.movie.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
 
 @Entity
 data class PopularEntity (
-    @PrimaryKey(autoGenerate = false) var id: Int? = null,
+    @PrimaryKey(autoGenerate = false) var id: Int,
     var adult: Boolean? = null,
     var backdropPath: String? = null,
     var originalTitle: String? = null,
@@ -20,6 +19,6 @@ data class PopularEntity (
     var voteAverage: Double? = null,
     var voteCount: Int? = null,
     var favorite : Boolean? = null
-) : Serializable
+)
 
 
