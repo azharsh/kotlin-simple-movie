@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "204501195032",
+    "project_id": "simple-movie-d4c80",
+    "storage_bucket": "simple-movie-d4c80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204501195032:android:48e534a0b876fc101a266d",
+        "android_client_info": {
+          "package_name": "com.example.simplemovie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "204501195032-4ghf1l3fhlujqrm3hcf2rer1rugfnmjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLf2Q94lZh6_tXmWRs_9w-h3UxxDIqWKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204501195032-4ghf1l3fhlujqrm3hcf2rer1rugfnmjs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
