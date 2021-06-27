@@ -17,4 +17,7 @@ interface PopularDao : BaseDao<PopularEntity> {
     @Query("DELETE FROM PopularEntity")
     suspend fun deleteAll()
 
+    @Query("UPDATE PopularEntity SET favorite = :fav WHERE id = :id")
+    suspend fun updatePopular(fav : Boolean , id : Int)
+
 }

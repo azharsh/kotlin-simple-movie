@@ -40,7 +40,6 @@ class PopularFragment(private val mainActivity: MainActivity) : BaseFragment(R.l
         fragmentListBinding?.recMovie?.adapter = movieAdapter
 
         getLocalData()
-       // getApiData()
 
     }
 

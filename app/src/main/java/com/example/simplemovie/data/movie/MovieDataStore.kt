@@ -6,7 +6,6 @@ import com.example.simplemovie.data.movie.model.MovieModel
 import com.example.simplemovie.data.movie.model.MovieResponse
 import com.example.simplemovie.data.movie.model.PopularEntity
 import com.example.simplemovie.data.movie.model.TopRatedEntity
-import com.example.simplemovie.data.movie.remote.MovieApi
 import com.example.simplemovie.data.movie.remote.MovieApiClient
 
 class MovieDataStore(
@@ -30,7 +29,7 @@ class MovieDataStore(
         popularDao.getAll().forEach {
             listResponse.add(
                 MovieModel(
-                    it.id,
+                    it.id ?:1,
                     it.adult ?: false,
                     it.backdropPath.orEmpty(),
                     it.originalTitle.orEmpty(),
@@ -54,10 +53,10 @@ class MovieDataStore(
     override suspend fun getTopRatedMovieLocal(): List<MovieModel> {
         val listResponse = mutableListOf<MovieModel>()
 
-        popularDao.getAll().forEach {
+        topRatedDao.getAll().forEach {
             listResponse.add(
                 MovieModel(
-                    it.id,
+                    it.id ?: 1,
                     it.adult ?: false,
                     it.backdropPath.orEmpty(),
                     it.originalTitle.orEmpty(),
@@ -78,41 +77,11 @@ class MovieDataStore(
     }
 
     override suspend fun updatePopular(movieModel: MovieModel) {
-        val popularEntity = PopularEntity(
-            movieModel.id,
-            movieModel.adult,
-            movieModel.backdropPath,
-            movieModel.originalTitle,
-            movieModel.overview,
-            movieModel.popularity,
-            movieModel.poster_path,
-            movieModel.releaseDate,
-            movieModel.title,
-            movieModel.video,
-            movieModel.voteAverage,
-            movieModel.voteCount,
-            movieModel.favorite
-        )
-        popularDao.update(popularEntity)
+        popularDao.updatePopular(movieModel.favorite, movieModel.id)
     }
 
     override suspend fun updateTopRated(movieModel: MovieModel) {
-        val topRatedEntity = TopRatedEntity(
-            movieModel.id,
-            movieModel.adult,
-            movieModel.backdropPath,
-            movieModel.originalTitle,
-            movieModel.overview,
-            movieModel.popularity,
-            movieModel.poster_path,
-            movieModel.releaseDate,
-            movieModel.title,
-            movieModel.video,
-            movieModel.voteAverage,
-            movieModel.voteCount,
-            movieModel.favorite
-        )
-        topRatedDao.update(topRatedEntity)
+        topRatedDao.updateTopRated(movieModel.favorite, movieModel.id)
     }
 
     override suspend fun insertPopular(listMovie: List<MovieModel>) {
@@ -122,12 +91,12 @@ class MovieDataStore(
                 PopularEntity(
                     it.id,
                     it.adult,
-                    it.backdropPath,
+                    it.backdrop_path,
                     it.originalTitle,
                     it.overview,
                     it.popularity,
                     it.poster_path,
-                    it.releaseDate,
+                    it.release_date,
                     it.title,
                     it.video,
                     it.voteAverage,
@@ -147,12 +116,12 @@ class MovieDataStore(
                 TopRatedEntity(
                     it.id,
                     it.adult,
-                    it.backdropPath,
+                    it.backdrop_path,
                     it.originalTitle,
                     it.overview,
                     it.popularity,
                     it.poster_path,
-                    it.releaseDate,
+                    it.release_date,
                     it.title,
                     it.video,
                     it.voteAverage,

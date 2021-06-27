@@ -4,10 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.simplemovie.R
 import com.example.simplemovie.base.BaseFragment
 import com.example.simplemovie.databinding.FragmentListBinding
 import com.example.simplemovie.ui.MainActivity
+import com.example.simplemovie.ui.adapter.MovieAdapter
+import com.example.simplemovie.ui.viewmodel.MovieViewModel
+import com.example.simplemovie.utils.launch
+import org.koin.android.ext.android.inject
 
 class FavouriteFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.fragment_list) {
 
@@ -16,7 +22,11 @@ class FavouriteFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.
             FavouriteFragment(mainActivity)
     }
 
-    private var fragmentListBinding : FragmentListBinding? = null
+    private var fragmentListBinding: FragmentListBinding? = null
+    private val movieViewModel: MovieViewModel by inject()
+
+
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,10 +34,30 @@ class FavouriteFragment(val mainActivity: MainActivity) : BaseFragment(R.layout.
         val binding = FragmentListBinding.bind(view)
         fragmentListBinding = binding
 
+        movieAdapter = MovieAdapter(arrayListOf(), mainActivity)
+
+        fragmentListBinding?.recMovie?.layoutManager = GridLayoutManager(context, 2)
+        fragmentListBinding?.recMovie?.adapter = movieAdapter
+
+        getPopuLarData()
+
     }
 
-    private fun getData(){
+    private fun getPopuLarData() {
+        launch {
+            movieViewModel.getPopularMovieLocal().observe(viewLifecycleOwner, Observer {
+                movieAdapter.setData(it)
+                getTopRatedData()
+            })
+        }
+    }
 
+    private fun getTopRatedData(){
+        launch {
+            movieViewModel.getTopRatedMovieLocal().observe(viewLifecycleOwner, Observer {
+                movieAdapter.addData(it)
+            })
+        }
     }
 
     override fun onDestroyView() {

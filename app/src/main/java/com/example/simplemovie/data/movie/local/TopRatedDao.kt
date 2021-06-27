@@ -17,4 +17,7 @@ interface TopRatedDao : BaseDao<TopRatedEntity> {
 
     @Query("DELETE FROM TopRatedEntity")
     suspend fun deleteAll()
+
+    @Query("UPDATE TopRatedEntity SET favorite = :fav WHERE id = :id")
+    suspend fun updateTopRated(fav : Boolean , id : Int)
 }

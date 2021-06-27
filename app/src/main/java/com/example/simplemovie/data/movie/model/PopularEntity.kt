@@ -7,7 +7,7 @@ import java.io.Serializable
 
 @Entity
 data class PopularEntity (
-    @PrimaryKey(autoGenerate = false) var id: Int,
+    @PrimaryKey(autoGenerate = false) var id: Int? = null,
     var adult: Boolean? = null,
     var backdropPath: String? = null,
     var originalTitle: String? = null,
